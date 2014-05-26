@@ -1,7 +1,7 @@
 //remember the following are unimplemented, nearly functions.
 //where thisarray[i] = null needs to be replaced with objects.
 
-int leftrightpoint(int point, int widtha, int heighta){
+int leftrightpoint(int point){
   int position = point%widtha;
   int randomlinepos = int(random(1,widtha-1));
   if(position == randomlinepos){
@@ -42,7 +42,7 @@ int leftrightpoint(int point, int widtha, int heighta){
 
 
 
-int updownpoint(int point, int widtha, int heighta){
+int updownpoint(int point){
   int vertical = point/widtha;
   int randomvertical = int(random(1,heighta-1));  
   if(vertical == randomvertical){
@@ -83,9 +83,7 @@ int updownpoint(int point, int widtha, int heighta){
 }
 
 
-
-
-
+//
 //void stamp3x3(int pointx){
 //  if([pointx] == 0 && pointx+(widtha*2)+1< holder.length){
 //    if(holder[pointx+1] == 0 && holder[pointx+2] == 0 && holder[pointx+widtha]==0 && holder[pointx+widtha+1] == 0 && holder[pointx+widtha+2] ==0 && holder[pointx+(widtha*2)]==0 && holder[pointx+(widtha*2)+1] == 0 && holder[pointx+(widtha*2)+2] ==0){
