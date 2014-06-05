@@ -57,6 +57,8 @@ void movements(int speed, int heigh, int widt){
         movingright = false;
       }
     }
+ 
+ 
+ 
   }
-  
 }
