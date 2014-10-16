@@ -35,6 +35,23 @@ class Object {
     thisobjectsimage = loadImage("tree.png");
     return thisobjectsimage;
   }
+  if (this.type == 4) {
+    thisobjectsimage = loadImage("mushlog.png");
+    return thisobjectsimage;
+  }
+  
+    if (this.type == 7) {
+    thisobjectsimage = loadImage("mushlog.png");
+    return thisobjectsimage;
+  }
+    if (this.type == 5) {
+    thisobjectsimage = loadImage("largeone.png");
+    return thisobjectsimage;
+  }
+  if(this.type == 21){
+   thisobjectsimage = loadImage("largeone.png");
+   return thisobjectsimage; 
+  }
   else{ 
     thisobjectsimage = loadImage("grass.png");
     return thisobjectsimage;

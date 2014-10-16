@@ -1,7 +1,7 @@
-void movements(int speed, int heigh, int widt){
+void movements(int speed, int heigh, int widt) {
   if (moving == true) {
     if (movingup) {
-      if (cell < widtha*4 || cell > square-widtha*7) {
+      if (cell < widtha*6 || cell > square-widtha*7) {
         py= py-speed;
       }
       else {
@@ -9,6 +9,9 @@ void movements(int speed, int heigh, int widt){
       }
       //by+=speed;
       moved +=speed;
+      
+      currentimage = fox[(moved/6/speed*2)%3];
+      
       if (moved >= heigh) {
         moved = 0;
         moving = false;
@@ -16,12 +19,14 @@ void movements(int speed, int heigh, int widt){
       }
     }
     if (movingdown) {
-      if (cell < widtha*5 || cell > square-widtha*6) {
+      if (cell < widtha*7 || cell > square-widtha*6) {
         py= py+speed;
-      }else{
-      by-=speed;
+      }
+      else {
+        by-=speed;
       }
       moved+=speed;
+       currentimage = fox[(moved/6/speed)%3];
       if (moved >= heigh) {
         moved = 0;
         moving = false;
@@ -29,11 +34,11 @@ void movements(int speed, int heigh, int widt){
       }
     }
     if (movingleft) {
-      if (cell%widtha < 5 || cell%widtha > widtha-7) {
-       px-=speed; 
+      if (cell%widtha < 9 || cell%widtha > widtha-11) {
+        px-=speed;
       }
-      else{
-        bx+=speed;  
+      else {
+        bx+=speed;
       }
       moved+=speed;
       if (moved >= widt) {
@@ -43,11 +48,11 @@ void movements(int speed, int heigh, int widt){
       }
     }
     if (movingright) {
-      if (cell%widtha < 6 || cell%widtha > widtha-6) {
-       px+=speed; 
+      if (cell%widtha < 10 || cell%widtha > widtha-10) {
+        px+=speed;
       }
-      else{
-        bx-=speed;  
+      else {
+        bx-=speed;
       }
       //bx-=speed;
       moved+=speed;
@@ -57,8 +62,6 @@ void movements(int speed, int heigh, int widt){
         movingright = false;
       }
     }
- 
- 
- 
   }
 }
+

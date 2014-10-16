@@ -1,3 +1,21 @@
+void generatenpcs(NPC[] npcs, int level, int amount, int types){
+  NPC[] tempenemystore = new NPC[amount];
+  for(int i=0; i<amount; i++){
+    
+     tempenemystore[i] = new NPC(int(random(2,heighta-2)*widtha+random(1,widtha-1)),level,int(random(types)),level*2);
+     
+  }
+  
+  for(int j=0; j<amount; j++){
+     npcs[tempenemystore[j].cp] = tempenemystore[j];
+     npcs[tempenemystore[j].cp].img();
+  }
+}
+
+
+
+
+
 class NPC {
   int cp;
   int attack;
@@ -7,6 +25,12 @@ class NPC {
   boolean canmove = true;
   boolean living = true;
   PImage thisenemiesimage;
+  boolean movingright = false;
+    boolean movingleft = false;
+      boolean movingup = false;
+        boolean movingdown = false;
+  int ex=0;
+  int ey=0;
 
   NPC(int startingpoint, int attackpower, int thistype, int health) {  
     cp = startingpoint;
@@ -23,11 +47,11 @@ class NPC {
 
   PImage img() {
     if (this.type == 0) {
-      thisenemiesimage = loadImage("mushlog.png");
+      thisenemiesimage = loadImage("betch.png");
       return thisenemiesimage;
     }
     else {
-      thisenemiesimage = loadImage("mushlog.png");
+      thisenemiesimage = loadImage("mushroom.png");
       return thisenemiesimage;
     }
   }
