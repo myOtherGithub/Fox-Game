@@ -10,7 +10,7 @@ void movements(int speed, int heigh, int widt) {
       //by+=speed;
       moved +=speed;
       
-      currentimage = fox[(moved/6/speed*2)%3];
+      currentimage = fox[((moved/6/speed*2)%3)+11];
       
       if (moved >= heigh) {
         moved = 0;
@@ -41,6 +41,8 @@ void movements(int speed, int heigh, int widt) {
         bx+=speed;
       }
       moved+=speed;
+      currentimage = fox[((moved/6/speed*2)%4)+7];
+      
       if (moved >= widt) {
         moved = 0;
         moving = false;
@@ -56,6 +58,7 @@ void movements(int speed, int heigh, int widt) {
       }
       //bx-=speed;
       moved+=speed;
+      currentimage = fox[((moved/6/speed*2)%4)+3];
       if (moved >= widt) {
         moved = 0;
         moving = false;

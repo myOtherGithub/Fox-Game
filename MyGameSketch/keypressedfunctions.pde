@@ -1,6 +1,11 @@
 void keyPressed() {
+//thisarray[cell-widtha].type == 100 || thisarray[cell-1].type == 100 || thisarray[cell+1].type == 100 || thisarray[cell+widtha].type == 100
   if (keyCode == UP && moving==false) {
-    if (thisarray[cell-widtha].passable() && enemies[cell-widtha] == null) {
+    if (thisarray[cell-widtha].type == 100){
+       //println("help me"); 
+       regenerateboard();
+    }
+    if (thisarray[cell-widtha].passable() && enemies[cell-widtha] == null && animated[cell-widtha] == null) {
       cell = cell-widtha;
       movingup = true;
       moving = true;
@@ -11,9 +16,14 @@ void keyPressed() {
     isleft = false;
     isright = false;
     isdown = false;
-  } 
+    currentimage=fox[11];
+  }
   if (keyCode == DOWN && moving==false) {
-    if (thisarray[cell+widtha].passable() && enemies[cell+widtha] == null) {
+    if (thisarray[cell+widtha].type == 100){
+       //println("help me"); 
+       regenerateboard();
+    }
+    if (thisarray[cell+widtha].passable() && enemies[cell+widtha] == null && animated[cell+widtha] == null) {
       movingdown = true;
       moving = true;
       cell = cell+widtha;
@@ -24,9 +34,14 @@ void keyPressed() {
     isleft = false;
     isright = false;
     isdown = true;
+    currentimage=fox[1];
   } 
   if (keyCode == LEFT && moving==false) {
-    if (thisarray[cell-1].passable() && enemies[cell-1] == null) {
+    if (thisarray[cell-1].type == 100){
+       //println("help me"); 
+       regenerateboard();
+    }
+    if (thisarray[cell-1].passable() && enemies[cell-1] == null && animated[cell-1] == null) {
       movingleft = true;
       moving = true;
       cell = cell-1;
@@ -37,9 +52,14 @@ void keyPressed() {
     isleft = true;
     isright = false;
     isdown = false;
+    currentimage=fox[7];
   } 
   if (keyCode == RIGHT && moving==false) {
-    if (thisarray[cell+1].passable() && enemies[cell+1] == null) {
+    if (thisarray[cell+1].type == 100){
+       //println("help me"); 
+       regenerateboard();
+    }
+    if (thisarray[cell+1].passable() && enemies[cell+1] == null && animated[cell+1] == null) {
       moving = true;
       movingright = true;
       cell = cell+1;
@@ -50,26 +70,39 @@ void keyPressed() {
     isleft = false;
     isright = true;
     isdown = false;
+     currentimage=fox[3];
   }
   if (key == ' ' && moving==false) {
     if (isup) {
       if (enemies[cell-widtha] != null) {
         speedcheck(-widtha);
       }
+      if(animated[cell-widtha] != null){
+       animated[cell-widtha].drawme = true; 
+      }
     }
     else if (isdown) {
       if (enemies[cell+widtha] != null) {
         speedcheck(widtha);
+      }
+      if(animated[cell+widtha] != null){
+       animated[cell+widtha].drawme = true; 
       }
     }
     else if (isleft) {
       if (enemies[cell-1] != null) {
         speedcheck(-1);
       }
+      if(animated[cell-1] != null){
+       animated[cell-1].drawme = true; 
+      }
     }
     else {
       if (enemies[cell+1] != null) {
         speedcheck(1);
+      }
+      if(animated[cell+1] != null){
+       animated[cell+1].drawme = true; 
       }
     }
   }

@@ -1,9 +1,12 @@
 void generatenpcs(NPC[] npcs, int level, int amount, int types){
   NPC[] tempenemystore = new NPC[amount];
   for(int i=0; i<amount; i++){
-    
-     tempenemystore[i] = new NPC(int(random(2,heighta-2)*widtha+random(1,widtha-1)),level,int(random(types)),level*2);
+     int thisrandomhere = enemyspace(int(random(widtha,square-widtha)), 0);
+     //int thisrandomhere = int(random(widtha,square-widtha));
      
+     if(thisrandomhere >=0){
+     tempenemystore[i] = new NPC(thisrandomhere,level,int(random(types)),level*2);
+     }     
   }
   
   for(int j=0; j<amount; j++){
@@ -13,7 +16,35 @@ void generatenpcs(NPC[] npcs, int level, int amount, int types){
 }
 
 
+int enemyspace(int myrandom, int count){
+   if(count >=10){
+    
+     return iteratetonext(myrandom,0);
+     
+   }else{
+   if(thisarray[myrandom] == objectlists[0] || thisarray[myrandom] == objectlists[1]){
+    return myrandom;
+   }else{
+    return enemyspace(int(random(widtha,square-widtha)), count+1);
+   } 
+   }
 
+}
+
+
+int iteratetonext(int myrandom, int count){
+  println("reached");
+  while(count != square-1){
+     if(thisarray[(myrandom+count)%square] == objectlists[0] || thisarray[(myrandom+count)%square] == objectlists[1]){
+             println(myrandom+count);
+       return myrandom+count;
+
+     }else{
+      count++; 
+     }
+  }
+ return 45; 
+}
 
 
 class NPC {
@@ -42,6 +73,7 @@ class NPC {
   void attack() {
     if (cp-1 == cell || cp+1 == cell || cp+widtha == cell || cp-widtha == cell) {
       healthpoints -=attack;
+      println("attacked!");
     }
   }
 
@@ -51,7 +83,7 @@ class NPC {
       return thisenemiesimage;
     }
     else {
-      thisenemiesimage = loadImage("mushroom.png");
+      thisenemiesimage = loadImage("monster1.png");
       return thisenemiesimage;
     }
   }

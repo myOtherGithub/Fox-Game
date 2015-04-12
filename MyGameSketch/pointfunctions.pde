@@ -26,12 +26,12 @@ int leftrightpoint(int point){
   int point2 = point-position+randomlinepos;
   if(point2>point){
    for(int i = point2; i>point; i--){
-    thisarray[i] = grasspath;
+    thisarray[i] = objectlists[1];
    } 
   }
   else{
    for(int i = point2; i<point; i++){
-    thisarray[i] = grasspath;
+    thisarray[i] = objectlists[1];
    }     
   } 
   return point2;
@@ -71,12 +71,12 @@ int updownpoint(int point){
  int point2 = widtha*randomvertical+(point%widtha);
   if(point2<point){
    for(int i = point2; i<point; i+=widtha){
-    thisarray[i] = grasspath;
+    thisarray[i] = objectlists[1];
    } 
   }
   else{
    for(int i = point2; i>point; i-=widtha){
-    thisarray[i] = grasspath;
+    thisarray[i] = objectlists[1];
    }     
   } 
   return point2;

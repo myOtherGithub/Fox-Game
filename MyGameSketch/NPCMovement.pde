@@ -7,12 +7,12 @@ void NPCMove(NPC[] theseenemies) {
         if (theseenemies[y].canmove == true) {
           int thisrandom = int(random(1, 5)); //choose random number
           if (thisrandom == 1) {
-            if (thisarray[y+1].passable() && y+1!=cell ) {
+            if (thisarray[y+1].passable() && y+1!=cell && enemies[y+1] == null && animated[y+1] == null) {
                     theseenemies[y].movingright = true;
             }
           }
           else if (thisrandom ==2) {
-            if (thisarray[y-1].passable() && y-1!=cell) {
+            if (thisarray[y-1].passable() && y-1!=cell  && enemies[y-1] == null && animated[y-1] == null) {
               theseenemies[y].movingleft = true;
               
               //theseenemies[y-1] = theseenemies[y];
@@ -21,7 +21,7 @@ void NPCMove(NPC[] theseenemies) {
             }
           }
           else if (thisrandom ==3) {
-            if (thisarray[y+widtha].passable() && y+widtha!=cell) {
+            if (thisarray[y+widtha].passable() && y+widtha!=cell  && enemies[y+widtha] == null && animated[y+widtha] == null) {
               theseenemies[y].movingdown = true;
               //theseenemies[y+widtha] = theseenemies[y];
               //theseenemies[y+widtha].canmove = false;
@@ -29,7 +29,7 @@ void NPCMove(NPC[] theseenemies) {
             }
           }
           else {
-            if (thisarray[y-widtha].passable() && y-widtha!=cell) {
+            if (thisarray[y-widtha].passable() && y-widtha!=cell  && enemies[y-widtha] == null && animated[y-widtha] == null) {
               theseenemies[y].movingup = true;
               //theseenemies[y-widtha] = theseenemies[y];
               //theseenemies[y-widtha].canmove = false;
