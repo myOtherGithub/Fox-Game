@@ -3,7 +3,7 @@ void generateparts(int amount1, int amount2, int amount3){
  // stamp2x2(int(random(square)), objectlist[int(random(10,19))]);
  // stamp1x1(int(random(square)), objectlist[int(random(21,30))]);
  for(int j=0; j<square; j++){
-   int quickrandom = int(random(2));
+   int quickrandom = int(random(12));
    if(quickrandom <5){
       stamp3x3(j, objectlists[19]);
    }else{

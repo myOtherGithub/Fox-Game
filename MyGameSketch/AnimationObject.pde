@@ -68,7 +68,7 @@ AnimatedObject(String imagePrefix, int count, boolean interact) {
          
         }
         if(lengtha <= 0){
-          println("it is: " + int((xpos/50)+((ypos/50)*widtha)));
+          currentGems = currentGems+=random(10,25);
           //bx+x5*widt,by+y5*heigh
           animated[index] = null;
           drawme = !drawme;

@@ -18,7 +18,7 @@ class Object {
   }
 
   PImage img() {
-     thisobjectsimage = loadImage("./environments/"+environmentnumber+"/"+this.type+".png");
+    thisobjectsimage = loadImage("./environments/"+environmentnumber+"/"+this.type+".png");
     return thisobjectsimage;
   }  
 }

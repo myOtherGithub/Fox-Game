@@ -84,7 +84,7 @@ AnimatedObject(String imagePrefix, int count, boolean interact) {
          
         }
         if(lengtha <= 0){
-          println("it is: " + PApplet.parseInt((xpos/50)+((ypos/50)*widtha)));
+          currentGems = currentGems+=random(10,25);
           //bx+x5*widt,by+y5*heigh
           animated[index] = null;
           drawme = !drawme;
@@ -113,6 +113,12 @@ AnimatedObject(String imagePrefix, int count, boolean interact) {
 int widtha = PApplet.parseInt(random(19,30));
 int heighta = PApplet.parseInt(random(19,30));
 int square = widtha*heighta;
+int frameNum = 0;
+int currentGems = 0;
+int nextinventory = 0;
+
+//weather
+int weather = PApplet.parseInt(random(0,1));
 
 //these arrays make up the board
 Object[] thisarray = new Object[square];
@@ -135,15 +141,21 @@ ArrayList<Integer> myList = new ArrayList<Integer>();
 //which environment
 int environmentnumber = 1;
 
+int fadeDirection = 1;
+
 
 NPC enemy1 = new NPC(PApplet.parseInt(random(2,heighta-1)*widtha+random(2, widtha-1)), 20, 20, 20);
 NPC[] enemies = new NPC[square];
 
 
 //Player variables
+  PFont font;
   PImage currentimage;
   PImage[] fox = new PImage[14];
   PImage[] foxtail = new PImage[4];
+  PImage[] weathers = new PImage[100];
+  PImage overlay;
+  PImage gem;
   int bx = 0;
   int by = 0;
   int cell = widtha*6+9;
@@ -165,7 +177,9 @@ NPC[] enemies = new NPC[square];
   int healthpoints = 12;
   int pspeed = 6;
   int pattack =1;
-
+  boolean currentlyRendering = true;
+  boolean startFader = false;
+  float incrementor=0;
 
 PImage poof; 
 int[] randoms;
@@ -204,6 +218,9 @@ public void setup() {
   poof = loadImage("poof.png");
   loadpimages(fox, "fox");
   loadpimages(foxtail,"tail");
+  overlay = loadImage("./environments/1/overlay.png");
+  gem = loadImage("./environments/1/gem.png");
+  font = loadFont("PWDolphins-18.vlw");
 
   currentimage = fox[0];
   randoms = randomarray(10, 360);
@@ -212,6 +229,10 @@ public void setup() {
   sizerandoms = randomarray(10, 30);
   //size(550, 550);
   size(950, 650);
+
+for(int i=0; i<16; i++){
+  weathers[i]= loadImage("./rain/Comp 1_"+(100000+i+1)+".png");
+}
 
 for(int u=0; u<objectlists.length; u++){
   if(objectlists[u] != null){
@@ -405,13 +426,9 @@ public void printboard(){
 
   }
 
-
-public void regeneratePath(){
-
-}
-
-
 public void regenerateboard(){
+  System.gc();
+  weather = PApplet.parseInt(random(0,1));
   clearArrays();  
   //lets comb it a first time setting up the dots that are the grasspath
   for(int m=0; m<square; m++){
@@ -523,7 +540,7 @@ public void regenerateboard(){
   
 
   generateparts(0,0,0);
-
+  
   generatechests(3);
   printboard();
 }
@@ -551,10 +568,24 @@ public void draw() {
   //int speed = 50;
   int ex = 0;
   int ey = 0;
+  int pposition = cell;
+  //int lowerbound = 2;
+  int lowerbound = 0;
+    //println("modulo: "+ cell %widtha);
+  int upperbound = pposition+(widtha*11);
+  if(upperbound > square){
+    upperbound = square;
+  }
 
-//low/middlelayer
-  for (int i=0; i<square; i++) {
-    if (i%widtha == 0 && i!=0) {
+  for(int i=lowerbound; i<upperbound; i++){
+    pposition = cell;
+    if(pposition+(widtha*11) > square){
+      upperbound = square;
+    }else{
+      upperbound=pposition+(widtha*12);
+   }
+   //y1 = i%widtha;
+    if ((i+0)%widtha == 0 && (i+0)!=0) {
       x1 = 0;
       y1++;
     }
@@ -581,7 +612,7 @@ public void draw() {
       image(thisarray[i].thisobjectsimage, bx+x1*widt, by+y1*heigh, widt, heigh);
     }
     x1++;
-  }
+}
   
 //animated objects
   for (int q=0; q<square; q++) {
@@ -657,20 +688,21 @@ public void draw() {
       y4++;
     }
     if (abovearray[h] != null) {
-     // image(enemies[h].thisenemiesimage, bx+x2*widt+enemies[j].ex, by+y2*heigh+enemies[h].ey, widt, heigh);
      image(abovearray[h].thisobjectsimage, bx+x4*widt, by+y4*heigh, widt, heigh);
     }
     x4++;
   }
 
-
-
   movements(speed, widt, heigh);
   NPCMovements(speed, 50);
-  drawhearts(healthpoints);
+  drawOverlay();
+  drawWeather();
   drawMap();
-  //poofit(100,100,200,50);
-  
+  fader();
+
+  drawGems(currentGems);
+  drawInventory();
+  drawhearts(healthpoints);
 }
 
 public void generatenpcs(NPC[] npcs, int level, int amount, int types){
@@ -882,7 +914,7 @@ public void generateparts(int amount1, int amount2, int amount3){
  // stamp2x2(int(random(square)), objectlist[int(random(10,19))]);
  // stamp1x1(int(random(square)), objectlist[int(random(21,30))]);
  for(int j=0; j<square; j++){
-   int quickrandom = PApplet.parseInt(random(2));
+   int quickrandom = PApplet.parseInt(random(12));
    if(quickrandom <5){
       stamp3x3(j, objectlists[19]);
    }else{
@@ -984,7 +1016,15 @@ public void stamp1x2(int pointx, Object Randomobject){
     }
   }
 
-
+public void drawWeather(){
+	if(weather >= 1){
+    frameNum++;
+	image(weathers[frameNum],0,0,width,height); 
+	if(frameNum == 15){
+		frameNum = 0;
+	}
+	}
+}
 
 public void drawhearts(int phealth){
 int fullhearts = phealth/4;
@@ -998,12 +1038,19 @@ int fullhearts = phealth/4;
    image(foxtail[4-leftover],(fullhearts*40)+45,5,40,40); 
   }
 }
+
+public void drawGems(int gemamount){
+	fill(255,255,255);
+	image(gem, 10, height-40, 35,35);
+	text(""+gemamount, 10, height-20);
+}
 public void keyPressed() {
 //thisarray[cell-widtha].type == 100 || thisarray[cell-1].type == 100 || thisarray[cell+1].type == 100 || thisarray[cell+widtha].type == 100
   if (keyCode == UP && moving==false) {
     if (thisarray[cell-widtha].type == 100){
        //println("help me"); 
-       regenerateboard();
+       startFader = true;
+       //regenerateboard();
     }
     if (thisarray[cell-widtha].passable() && enemies[cell-widtha] == null && animated[cell-widtha] == null) {
       cell = cell-widtha;
@@ -1021,7 +1068,7 @@ public void keyPressed() {
   if (keyCode == DOWN && moving==false) {
     if (thisarray[cell+widtha].type == 100){
        //println("help me"); 
-       regenerateboard();
+       startFader = true;
     }
     if (thisarray[cell+widtha].passable() && enemies[cell+widtha] == null && animated[cell+widtha] == null) {
       movingdown = true;
@@ -1039,7 +1086,7 @@ public void keyPressed() {
   if (keyCode == LEFT && moving==false) {
     if (thisarray[cell-1].type == 100){
        //println("help me"); 
-       regenerateboard();
+       startFader = true;
     }
     if (thisarray[cell-1].passable() && enemies[cell-1] == null && animated[cell-1] == null) {
       movingleft = true;
@@ -1057,7 +1104,7 @@ public void keyPressed() {
   if (keyCode == RIGHT && moving==false) {
     if (thisarray[cell+1].type == 100){
        //println("help me"); 
-       regenerateboard();
+       startFader = true;
     }
     if (thisarray[cell+1].passable() && enemies[cell+1] == null && animated[cell+1] == null) {
       moving = true;
@@ -1078,7 +1125,10 @@ public void keyPressed() {
         speedcheck(-widtha);
       }
       if(animated[cell-widtha] != null){
-       animated[cell-widtha].drawme = true; 
+        animated[cell-widtha].drawme = true; 
+      }
+      if(thisarray[cell-widtha] != null){
+        addToInventory(thisarray[cell-widtha]);
       }
     }
     else if (isdown) {
@@ -1127,6 +1177,14 @@ public void speedcheck(int number) {
   }
 }
 
+public void addToInventory(Object thisobject){
+  println("added " + thisobject.type);
+  if(thisobject.type!=3 && thisobject.type >= 2 ){
+  inventory[nextinventory] = thisobject;
+  nextinventory++;
+  }
+}
+
 public void loadpimages(PImage[] setme, String prefix){
  for(int inc = 0; inc <setme.length; inc++){
     setme[inc] = loadImage(""+prefix+inc+".png");
@@ -1135,7 +1193,7 @@ public void loadpimages(PImage[] setme, String prefix){
 
 
 public void drawMap(){
-	int mapSize = 5;
+	int mapSize = 7;
 	colorMode(HSB,360,100,100,100);
 	noStroke();
     for(int h=0; h<heighta; h++){
@@ -1143,16 +1201,22 @@ public void drawMap(){
         int num = thisarray[h*widtha+u].type;
         if(num <1){
         	fill(100, 100, 50, 100);
-        }else if(num == 1 || num == 3 || num == 10){
+        }else if((num >= 1 && num <= 4) || num == 9 || num == 10 || num ==18 || num ==22 || num ==202){
         	fill(100, 100, 25, 100);
+        }
+        else if(num == 100){
+        	fill(270,100,100);
         }
         else{
         	fill(num,100,100,100);
         }
+        if(h*widtha+u == cell){
+        	fill(35,100,100,100);
+        }
         rect(width-widtha*mapSize+u*mapSize,height-heighta*mapSize+h*mapSize,mapSize,mapSize);
       }
     }
-    colorMode(RGB,255,255,255,100);
+    colorMode(RGB,255,255,255);
   }
 
   //fill(100, 100, 50, 100);grass
@@ -1247,7 +1311,7 @@ class Object {
   }
 
   public PImage img() {
-     thisobjectsimage = loadImage("./environments/"+environmentnumber+"/"+this.type+".png");
+    thisobjectsimage = loadImage("./environments/"+environmentnumber+"/"+this.type+".png");
     return thisobjectsimage;
   }  
 }
@@ -1339,6 +1403,48 @@ public int updownpoint(int point){
 
 
 
+public void fader(){
+  if(startFader){
+    moving = true;
+    colorMode(HSB,360,100,100,100);
+    incrementor = incrementor+2.5f*fadeDirection;
+    fill(290,100,17,incrementor);
+    rect(0,0,width,height);
+    println(incrementor);
+    if(incrementor >= 100){
+      regenerateboard();
+      fadeDirection = -1;
+    }
+    if(incrementor <=0){
+      fadeDirection=1;
+      incrementor=0;
+      moving = false;
+      startFader=false;
+    }
+    colorMode(RGB,255,255,255);
+  }
+}
+
+public void drawOverlay(){
+  if(overlay != null){
+    int localsquare = width/19;
+    int amountx = widtha*localsquare/width;
+    int amounty = heighta*localsquare/height;
+    for(int highness = 0; highness<=amounty; highness++){
+      for(int wideness = 0; wideness<=amountx; wideness++){
+        image(overlay,bx+wideness*width,by+highness*height,width,height);
+      }
+    }
+  }
+}
+
+public void drawInventory(){
+  for(int i=0; i< 10; i++){
+    if(inventory[i] != null){
+      image(inventory[i].thisobjectsimage, 400+(i*42), 50, 40,40);
+    }
+  }
+}
 
 public void poofit(int x, int y, int pwidth, int number){
   for(int i=0 ; i<number; i++){

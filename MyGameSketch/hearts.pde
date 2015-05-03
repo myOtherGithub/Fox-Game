@@ -10,3 +10,9 @@ int fullhearts = phealth/4;
    image(foxtail[4-leftover],(fullhearts*40)+45,5,40,40); 
   }
 }
+
+void drawGems(int gemamount){
+	fill(255,255,255);
+	image(gem, 10, height-40, 35,35);
+	text(""+gemamount, 10, height-20);
+}

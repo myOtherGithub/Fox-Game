@@ -3,7 +3,8 @@ void keyPressed() {
   if (keyCode == UP && moving==false) {
     if (thisarray[cell-widtha].type == 100){
        //println("help me"); 
-       regenerateboard();
+       startFader = true;
+       //regenerateboard();
     }
     if (thisarray[cell-widtha].passable() && enemies[cell-widtha] == null && animated[cell-widtha] == null) {
       cell = cell-widtha;
@@ -21,7 +22,7 @@ void keyPressed() {
   if (keyCode == DOWN && moving==false) {
     if (thisarray[cell+widtha].type == 100){
        //println("help me"); 
-       regenerateboard();
+       startFader = true;
     }
     if (thisarray[cell+widtha].passable() && enemies[cell+widtha] == null && animated[cell+widtha] == null) {
       movingdown = true;
@@ -39,7 +40,7 @@ void keyPressed() {
   if (keyCode == LEFT && moving==false) {
     if (thisarray[cell-1].type == 100){
        //println("help me"); 
-       regenerateboard();
+       startFader = true;
     }
     if (thisarray[cell-1].passable() && enemies[cell-1] == null && animated[cell-1] == null) {
       movingleft = true;
@@ -57,7 +58,7 @@ void keyPressed() {
   if (keyCode == RIGHT && moving==false) {
     if (thisarray[cell+1].type == 100){
        //println("help me"); 
-       regenerateboard();
+       startFader = true;
     }
     if (thisarray[cell+1].passable() && enemies[cell+1] == null && animated[cell+1] == null) {
       moving = true;
@@ -78,7 +79,10 @@ void keyPressed() {
         speedcheck(-widtha);
       }
       if(animated[cell-widtha] != null){
-       animated[cell-widtha].drawme = true; 
+        animated[cell-widtha].drawme = true; 
+      }
+      if(thisarray[cell-widtha] != null){
+        addToInventory(thisarray[cell-widtha]);
       }
     }
     else if (isdown) {
@@ -124,6 +128,14 @@ void speedcheck(int number) {
     if (enemies[cell+number].living == false) {
       enemies[cell+number] = null;
     }
+  }
+}
+
+void addToInventory(Object thisobject){
+  println("added " + thisobject.type);
+  if(thisobject.type!=3 && thisobject.type >= 2 ){
+  inventory[nextinventory] = thisobject;
+  nextinventory++;
   }
 }
 
